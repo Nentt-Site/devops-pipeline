@@ -1,0 +1,24 @@
+name: CI Pipeline  #name of the workflow
+
+on:   #trigger
+  push:
+     branches: [main] #run the pipeline when code is pushed to main
+
+jobs:
+  build:  #name of job
+     runs-on: ubuntu-latest   #Github provides temporary Ubuntu machine
+    
+     steps:   #actual steps executed sequentially, gets repo code into runner
+     - name: Checkout code  #each step has a name
+       uses: actions/checkout@v5  #using prebuilt github action that checks out our repo, Github actions now has your files
+     
+     - name: Set up Node.js #Label for setting up node js
+       uses: actions/setup-node@v3  #prebuilt action designed to install/configure node.js on the runner
+       with:
+           node-version: 16   #use setup node action(prebuilt) and configure it to node.js version 16
+
+     - name: Install Dependencies  #Label to install dependencies
+       run: npm install #run this command in the runner's terminal, installs required packages
+
+     - name: Run Tests
+       run: npm test  #execute command on the runner, runs and executes node test.js
